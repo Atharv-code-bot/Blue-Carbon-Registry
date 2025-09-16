@@ -2,8 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MapPin, Calendar, TreePine, Eye } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export function RecentSubmissions() {
+  const navigate = useNavigate();
   const submissions = [
     {
       id: '1',
@@ -108,7 +110,7 @@ export function RecentSubmissions() {
                   </div>
                 </div>
                 
-                <Button variant="ghost" size="icon" className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button variant="ghost" size="icon" className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => navigate('/contributions')}>
                   <Eye className="h-4 w-4" />
                 </Button>
               </div>
@@ -117,7 +119,7 @@ export function RecentSubmissions() {
         </div>
         
         <div className="mt-4">
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full" onClick={() => navigate('/contributions')}>
             View All Submissions
           </Button>
         </div>

@@ -229,7 +229,18 @@ export default function Analytics() {
                   <SelectItem value="all">All Time</SelectItem>
                 </SelectContent>
               </Select>
-              <Button variant="outline">
+              <Button variant="outline" onClick={() => {
+                const csvContent = `Month,Submissions,Verifications,Credits,Trees\n${monthlyData.labels.map((month, i) => 
+                  `${month},${monthlyData.submissions[i]},${monthlyData.verifications[i]},${monthlyData.credits[i]},${monthlyData.trees[i]}`
+                ).join('\n')}`;
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'analytics-report.csv';
+                a.click();
+                window.URL.revokeObjectURL(url);
+              }}>
                 <Download className="h-4 w-4 mr-2" />
                 Export
               </Button>
@@ -356,70 +367,31 @@ export default function Analytics() {
           </Card>
 
           {/* Detailed Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Performance Metrics</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Average Processing Time</span>
-                    <span className="font-semibold">2.3 days</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Success Rate</span>
-                    <span className="font-semibold text-success">87.5%</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">AI Confidence Average</span>
-                    <span className="font-semibold">91.2%</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Documentation Quality</span>
-                    <span className="font-semibold text-primary">Excellent</span>
-                  </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Performance Metrics</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center p-4 bg-muted/50 rounded-lg">
+                  <div className="text-lg font-semibold">2.3 days</div>
+                  <div className="text-sm text-muted-foreground">Avg. Processing Time</div>
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Monthly Targets</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Submissions Target</span>
-                      <span>8/10</span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <div className="bg-primary h-2 rounded-full" style={{ width: '80%' }} />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Credits Target</span>
-                      <span>1,200/1,500</span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <div className="bg-success h-2 rounded-full" style={{ width: '80%' }} />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Trees Target</span>
-                      <span>4,200/5,000</span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <div className="bg-accent h-2 rounded-full" style={{ width: '84%' }} />
-                    </div>
-                  </div>
+                <div className="text-center p-4 bg-muted/50 rounded-lg">
+                  <div className="text-lg font-semibold text-success">87.5%</div>
+                  <div className="text-sm text-muted-foreground">Success Rate</div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+                <div className="text-center p-4 bg-muted/50 rounded-lg">
+                  <div className="text-lg font-semibold">91.2%</div>
+                  <div className="text-sm text-muted-foreground">AI Confidence Avg.</div>
+                </div>
+                <div className="text-center p-4 bg-muted/50 rounded-lg">
+                  <div className="text-lg font-semibold text-primary">Excellent</div>
+                  <div className="text-sm text-muted-foreground">Doc. Quality</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>

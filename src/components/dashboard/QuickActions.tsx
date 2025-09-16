@@ -1,36 +1,39 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Upload, MapPin, Camera, FileText } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export function QuickActions() {
+  const navigate = useNavigate();
+  
   const actions = [
     {
       title: 'Submit New Plantation',
       description: 'Upload photos and documentation of your latest mangrove plantation',
       icon: Upload,
       variant: 'forest' as const,
-      action: () => console.log('Submit plantation')
+      action: () => navigate('/submit')
     },
     {
       title: 'View Site Map',
       description: 'Explore your plantation sites and track their status',
       icon: MapPin,
       variant: 'ocean' as const,
-      action: () => console.log('View map')
+      action: () => navigate('/monitoring')
     },
     {
       title: 'Upload Drone Footage',
       description: 'Add aerial monitoring footage for better verification',
       icon: Camera,
       variant: 'earth' as const,
-      action: () => console.log('Upload footage')
+      action: () => navigate('/submit')
     },
     {
       title: 'Generate Report',
       description: 'Create detailed reports of your restoration activities',
       icon: FileText,
       variant: 'secondary' as const,
-      action: () => console.log('Generate report')
+      action: () => navigate('/analytics')
     }
   ];
 

@@ -10,6 +10,16 @@ import { Bell, CheckCircle, AlertTriangle, Info, Star, Filter, Search, Check } f
 export default function Notifications() {
   const [filter, setFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [preferences, setPreferences] = useState({
+    submissions: true,
+    achievements: true,
+    announcements: true,
+    digest: true
+  });
+
+  const togglePreference = (key: keyof typeof preferences) => {
+    setPreferences(prev => ({ ...prev, [key]: !prev[key] }));
+  };
 
   const notifications = [
     {
@@ -361,28 +371,52 @@ export default function Notifications() {
                     <p className="font-medium">Submission Updates</p>
                     <p className="text-sm text-muted-foreground">Get notified about verification status changes</p>
                   </div>
-                  <Button variant="outline" size="sm">Enabled</Button>
+                  <Button 
+                    variant={preferences.submissions ? "default" : "outline"} 
+                    size="sm" 
+                    onClick={() => setPreferences(prev => ({ ...prev, submissions: !prev.submissions }))}
+                  >
+                    {preferences.submissions ? 'Enabled' : 'Disabled'}
+                  </Button>
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium">Achievement Notifications</p>
                     <p className="text-sm text-muted-foreground">Receive updates about badges and level ups</p>
                   </div>
-                  <Button variant="outline" size="sm">Enabled</Button>
+                  <Button 
+                    variant={preferences.achievements ? "default" : "outline"} 
+                    size="sm" 
+                    onClick={() => setPreferences(prev => ({ ...prev, achievements: !prev.achievements }))}
+                  >
+                    {preferences.achievements ? 'Enabled' : 'Disabled'}
+                  </Button>
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium">System Announcements</p>
                     <p className="text-sm text-muted-foreground">Important platform updates and maintenance notices</p>
                   </div>
-                  <Button variant="outline" size="sm">Enabled</Button>
+                  <Button 
+                    variant={preferences.announcements ? "default" : "outline"} 
+                    size="sm" 
+                    onClick={() => setPreferences(prev => ({ ...prev, announcements: !prev.announcements }))}
+                  >
+                    {preferences.announcements ? 'Enabled' : 'Disabled'}
+                  </Button>
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium">Weekly Digest</p>
                     <p className="text-sm text-muted-foreground">Summary of your activity and progress</p>
                   </div>
-                  <Button variant="outline" size="sm">Enabled</Button>
+                  <Button 
+                    variant={preferences.digest ? "default" : "outline"} 
+                    size="sm" 
+                    onClick={() => setPreferences(prev => ({ ...prev, digest: !prev.digest }))}
+                  >
+                    {preferences.digest ? 'Enabled' : 'Disabled'}
+                  </Button>
                 </div>
               </div>
             </CardContent>

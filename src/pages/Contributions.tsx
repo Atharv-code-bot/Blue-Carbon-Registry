@@ -166,7 +166,18 @@ export default function Contributions() {
                 Track your plantation submissions and carbon credit earnings
               </p>
             </div>
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => {
+              const csvContent = `ID,Title,Location,Area,Trees,Credits,Status,Date\n${contributions.map(c => 
+                `${c.id},"${c.title}","${c.location}",${c.area},${c.treeCount},${c.credits},${c.status},${c.submissionDate}`
+              ).join('\n')}`;
+              const blob = new Blob([csvContent], { type: 'text/csv' });
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'contributions-report.csv';
+              a.click();
+              window.URL.revokeObjectURL(url);
+            }}>
               <Download className="h-4 w-4 mr-2" />
               Export Report
             </Button>
@@ -278,7 +289,10 @@ export default function Contributions() {
                       </div>
                       <div className="flex items-center space-x-2">
                         {getStatusBadge(contribution.status)}
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" onClick={() => {
+                          // Mock detailed view - in real app would open modal or navigate to detail page
+                          alert(`Viewing details for ${contribution.title}\n\nSubmission ID: ${contribution.id}\nStatus: ${contribution.status}\nCredits: ${contribution.credits}\nTokens: ${contribution.tokens}\n\nAI Validation:\n- Fraud Score: ${contribution.aiValidation.fraudScore}%\n- NDVI Health: ${contribution.aiValidation.ndviHealth}%\n- Tree Survival: ${contribution.aiValidation.treeSurvival}%`);
+                        }}>
                           <Eye className="h-4 w-4 mr-1" />
                           View
                         </Button>
