@@ -16,6 +16,7 @@ export default function Notifications() {
     announcements: true,
     digest: true
   });
+  const [viewedNotification, setViewedNotification] = useState<any | null>(null);
 
   const togglePreference = (key: keyof typeof preferences) => {
     setPreferences(prev => ({ ...prev, [key]: !prev[key] }));
@@ -267,10 +268,9 @@ export default function Notifications() {
             {filteredNotifications.map((notification) => (
               <Card 
                 key={notification.id} 
-                className={`cursor-pointer transition-all hover:shadow-md ${
+                className={`transition-all hover:shadow-md ${
                   getNotificationBg(notification.type, notification.isRead)
                 }`}
-                onClick={() => !notification.isRead && markAsRead(notification.id)}
               >
                 <CardContent className="pt-4">
                   <div className="flex items-start space-x-4">
@@ -333,7 +333,7 @@ export default function Notifications() {
                       
                       {notification.actionUrl && (
                         <div className="pt-2">
-                          <Button variant="outline" size="sm">
+                          <Button variant="outline" size="sm" onClick={() => setViewedNotification(notification)}>
                             View Details
                           </Button>
                         </div>
@@ -357,6 +357,51 @@ export default function Notifications() {
                 </p>
               </CardContent>
             </Card>
+          )}
+
+          {/* Notification Details Modal */}
+          {viewedNotification && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+              <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
+                <button
+                  className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+                  onClick={() => setViewedNotification(null)}
+                  aria-label="Close"
+                >
+                  ×
+                </button>
+                <div className="flex items-center gap-2 mb-2">
+                  {getNotificationIcon(viewedNotification.type)}
+                  <h2 className="text-xl font-bold">{viewedNotification.title}</h2>
+                </div>
+                <div className="mb-2 text-sm text-muted-foreground">{getTypeBadge(viewedNotification.type)}</div>
+                <div className="mb-2 text-xs text-muted-foreground">{viewedNotification.time}</div>
+                <div className="mb-4">{viewedNotification.message}</div>
+                {viewedNotification.metadata && (
+                  <div className="mb-4 space-y-1">
+                    {Object.entries(viewedNotification.metadata).map(([key, value]) => (
+                      <div key={key} className="text-sm">
+                        <span className="font-semibold capitalize">{key.replace(/([A-Z])/g, ' $1')}: </span>
+                        <span>{String(value)}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {viewedNotification.actionUrl && (
+                  <a
+                    href={viewedNotification.actionUrl}
+                    className="inline-block px-3 py-1 bg-primary text-white rounded text-sm hover:bg-primary/90 mb-2"
+                  >
+                    Go to Related Page
+                  </a>
+                )}
+                <div>
+                  <Button variant="outline" size="sm" onClick={() => setViewedNotification(null)}>
+                    Close
+                  </Button>
+                </div>
+              </div>
+            </div>
           )}
 
           {/* Notification Settings */}
