@@ -63,11 +63,7 @@ const Index = () => {
                 Start Contributing
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline"
-                onClick={() => navigate('/docs')}
-              >
+              <Button size="lg" variant="outline">
                 View Documentation
               </Button>
             </div>

@@ -79,8 +79,7 @@ export const useAuth = create<AuthStore>((set, get) => ({
   logout: () => {
     set({ user: null, isAuthenticated: false });
     localStorage.removeItem('auth_user');
-    // Use window.location.replace to prevent back navigation issues
-    window.location.replace('/auth');
+    window.location.href = '/auth';
   },
 
   register: async (email: string, password: string, name: string, role: User['role']) => {

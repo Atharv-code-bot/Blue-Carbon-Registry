@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
-import { useLayout } from '@/components/layout/Layout';
 import {
   Home,
   Upload,
@@ -44,12 +43,6 @@ export function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { user, logout } = useAuth();
   const location = useLocation();
-  const { setSidebarCollapsed } = useLayout();
-
-  // Sync sidebar state with layout context
-  useEffect(() => {
-    setSidebarCollapsed(isCollapsed);
-  }, [isCollapsed, setSidebarCollapsed]);
 
   const navItems = user?.role === 'admin' ? adminNavItems : communityNavItems;
 

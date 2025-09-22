@@ -5,20 +5,13 @@ import { RecentSubmissions } from '@/components/dashboard/RecentSubmissions';
 import { ProgressChart } from '@/components/dashboard/ProgressChart';
 import { Leaderboard } from '@/components/dashboard/Leaderboard';
 import { NotificationCenter } from '@/components/dashboard/NotificationCenter';
-import { useLayout } from '@/components/layout/Layout';
-import { cn } from '@/lib/utils';
 
 export function CommunityDashboard() {
-  const { sidebarCollapsed } = useLayout();
-
   return (
     <div className="flex min-h-screen">
       <Sidebar />
       
-      <main className={cn(
-        "flex-1 p-6 animate-fade-in-up transition-all duration-300",
-        sidebarCollapsed ? "ml-16" : "ml-64"
-      )}>
+      <main className="flex-1 ml-64 p-6 animate-fade-in-up">
         <div className="max-w-7xl mx-auto space-y-6">
           {/* Header */}
           <div className="space-y-2">

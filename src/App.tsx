@@ -16,7 +16,6 @@ import Monitoring from "./pages/Monitoring";
 import Validation from "./pages/Validation";
 import Communities from "./pages/Communities";
 import Reports from "./pages/Reports";
-import Documentation from "./pages/Documentation";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,7 +40,6 @@ const App = () => (
           <Route path="/validation" element={<Validation />} />
           <Route path="/communities" element={<Communities />} />
           <Route path="/reports" element={<Reports />} />
-          <Route path="/docs" element={<Documentation />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
